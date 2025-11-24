@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# MyDataGolf Portal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React + TypeScript single-page app for logging golf shots and sending them to the MyDataGolf API. Tailwind CSS provides styling, and a simple form captures both intended and actual ball flight details with inline validation and toast feedback.
 
-## Available Scripts
+## Getting Started
+Prereqs: Node.js (LTS recommended) and npm.
 
-In the project directory, you can run:
+```bash
+cd MyDataGolfPortal
+npm install
+npm start
+```
 
-### `npm start`
+The dev server runs at http://localhost:3000 with hot reload.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Configuration
+- API endpoint lives in `src/config.ts` as `API_URL` (currently pointing at the prod gateway). Update this value for local/staging as needed.
+- Tailwind scans `./src/**/*.{js,jsx,ts,tsx}` via `tailwind.config.js`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Scripts
+- `npm start` — run the dev server.
+- `npm test` — Jest + React Testing Library in watch mode.
+- `npm run build` — production build to `build/`.
+- `npm run eject` — CRA eject (one-way; typically avoid).
 
-### `npm test`
+## Project Structure
+- `src/App.tsx` — main form UI, submission flow, and toasts.
+- `src/types.ts` — enumerations for shot attributes.
+- `src/config.ts` — API base URL.
+- `src/index.tsx` — app entry; global styles at `src/index.css` (Tailwind directives).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Shot Payload Shape
+Example POST body sent to `POST {API_URL}/shots`:
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```json
+{
+  "timestamp": 1734556800000,
+  "club": "7 Iron",
+  "intendedShot": {
+    "startLine": "left",
+    "curve": "leftToRight",
+    "height": "medium"
+  },
+  "actualShot": {
+    "startLine": "straight",
+    "curve": "none",
+    "height": "medium",
+    "strikeLocation": "center",
+    "endLocation": "target"
+  }
+}
+```
